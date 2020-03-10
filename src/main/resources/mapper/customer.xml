@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.company.crm.domain.persistence.customer.CustomerDao">
+    <update id="update">
+        UPDATE test_data_customer
+            SET first_name = #{firstName},
+                last_name = #{lastName},
+                username = #{username},
+                email = #{email},
+                address = #{address},
+                country_id = #{countryId}
+            WHERE
+                id = #{id};
+    </update>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="ee.company.crm.domain.persistence.customer.CustomerEntity">
+        SELECT * from test_data_customer where id = #{customerId}
+    </select>
+
+    <select id="findByUserid" resultType="ee.company.crm.domain.persistence.customer.CustomerEntity">
+        SELECT * FROM test_data_customer WHERE user_id = #{userId}
+    </select>
+
+    <select id="findByUserAndCustomerId"
+            resultType="ee.company.crm.domain.persistence.customer.CustomerEntity">
+        SELECT * FROM test_data_customer WHERE user_id = #{userId} AND id = #{customerId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO test_data_customer (
+            first_name,
+            last_name,
+            username,
+            email,
+            address,
+            country_id,
+            user_id
+        ) VALUES (
+            #{firstName},
+            #{lastName},
+            #{username},
+            #{email},
+            #{address},
+            #{countryId},
+            #{userId}
+        );
+    </insert>
+</mapper>

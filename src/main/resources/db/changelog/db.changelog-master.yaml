@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/001-user-schema.sql
+  - include:
+      file: db/changelog/002-country-schema.sql
+  - include:
+      file: db/changelog/003-customer-schema.sql
+  - include:
+      file: db/changelog/004-user-insert.sql
+  - include:
+      file: db/changelog/005-country-insert.sql

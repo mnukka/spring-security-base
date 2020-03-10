@@ -1,0 +1,1 @@
+INSERT INTO test_data_country (country) VALUES ('Estonia'),('Latvia'), ('Lithuania'), ('Finland'), ('Sweden');

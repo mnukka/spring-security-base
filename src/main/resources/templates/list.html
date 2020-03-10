@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Customer list</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Customers</h2>
+    </div>
+    <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>
+
+    <div class="row">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="nav pull-right">
+                    <li><a th:href="@{/logout}" class="btn btn-done" > Logout </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="my-2">
+            <a th:href="@{/add}" class="btn btn-primary">Add Customer</a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Username</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${customers.empty}">
+                <td colspan="3">No customers</td>
+            </tr>
+            <tr th:each="customer : ${customers}">
+                <th scope="row" th:text="${customer.id}"></th>
+                <td th:text="${customer.firstName}"></td>
+                <td th:text="${customer.lastName}"></td>
+                <td th:text="${customer.username}"></td>
+                <td>
+                    <a th:href="@{'/customer/'+ ${customer.id}}" class="btn btn-primary">Edit Customer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2020 Code for Humans OÜ</p>
+</footer>
+</div>
+</body>
+</html>
