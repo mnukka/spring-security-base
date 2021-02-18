@@ -1,5 +1,4 @@
 # Getting Started
-https://www.crazycall.com/blog/client-vs-customer
 
 Run from CrmApplication.java
 
