@@ -16,9 +16,11 @@ Users: Taavi, Juku, Elon
 pwd: kukejaan
 
 ---
-Further improvements which I would consider in real life
-1. Better test coverage
-2. Caching for country list
-3. Transactional queries
-4. Indexing in database
+Todo:
+1. Security bug fix, logged in users can peek into other customer's data
+2. SOLID refactor
+3. Tests
+4. Caching for country list
+5. Transactional queries
+6. Indexing in database
 
