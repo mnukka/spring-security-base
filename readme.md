@@ -1,6 +1,6 @@
 # Getting Started
 
-Run from CrmApplication.java
+This project is built as an exercise. Run from CrmApplication.java
 
 ## Stack
 1) Java 8
