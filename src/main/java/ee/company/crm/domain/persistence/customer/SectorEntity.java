@@ -6,7 +6,7 @@ import lombok.Data;
 public class SectorEntity {
     private Long id;
     private Long parentId;
-    private String country;
+    private String sector;
     private Boolean enabled;
     private int level;
 }

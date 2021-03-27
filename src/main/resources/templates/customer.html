@@ -2,16 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
-
     <title>Add Customer</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+        function createSpaces(count) {
+            if (count === 0) return "";
+            let output = "";
+            for (let i = 0; i < count; i++) {
+                output += "&nbsp;&nbsp;&nbsp;&nbsp;"
+            }
+            return output;
+        }
+
+        window.onload = function(event) {
+            let sectorList = document.getElementById("sector");
+            for (let i = 0; i <= sectorList.length - 1; i++) {
+                sectorList[i].innerHTML = createSpaces(sectorList[i].getAttribute("level")) + sectorList[i].innerHTML;
+            }
+        };
+
+    </script>
 </head>
 
 <body class="bg-light">
@@ -59,10 +72,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="country">Sector</label>
-                    <select th:field="*{sectorId}" class="custom-select d-block w-100" id="country">
-                        <option value="0">Choose...</option>
-                        <option th:each="sector : ${sectorList}" th:value="${sector.id}" th:text="${sector.sector}"></option>
+                    <label for="sector">Sector</label>
+                    <select th:field="*{sectorId}" class="custom-select d-block w-100" id="sector">
+                        <option th:each="sector : ${sectorList}" th:value="${sector.id}" th:text="${sector.sector}" th:attr="level=${sector.level}"></option>
                     </select>
                 </div>
                 <hr class="mb-4">

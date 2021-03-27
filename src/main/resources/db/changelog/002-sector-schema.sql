@@ -6,3 +6,4 @@ create table sector
   enabled BOOLEAN DEFAULT true
 );
 
+CREATE EXTENSION tablefunc;
