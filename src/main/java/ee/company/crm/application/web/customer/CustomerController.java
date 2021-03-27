@@ -1,6 +1,6 @@
 package ee.company.crm.application.web.customer;
 
-import ee.company.crm.domain.service.customer.CountryDto;
+import ee.company.crm.domain.service.customer.SectorDto;
 import ee.company.crm.domain.service.customer.CustomerDetailsService;
 import ee.company.crm.domain.service.customer.CustomerDto;
 import ee.company.crm.domain.service.customer.CustomerService;
@@ -13,9 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -66,14 +64,14 @@ public class CustomerController {
     }
 
     private ModelAndView createModelView(CustomerDto customerDto) {
-        List<CountryDto> countryDtoList = findAllCountries();
+        List<SectorDto> sectorDtoList = findAllCountries();
         ModelAndView model = new ModelAndView();
         model.addObject("customerDto", customerDto);
-        model.addObject("countryList", countryDtoList);
+        model.addObject("sectorList", sectorDtoList);
         model.setViewName("customer");
         return model;
     }
-    private List<CountryDto> findAllCountries() {
+    private List<SectorDto> findAllCountries() {
         return customerDetailsService.findAllCountries();
     }
 }

@@ -59,10 +59,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="country">Country</label>
-                    <select th:field="*{countryId}" class="custom-select d-block w-100" id="country">
+                    <label for="country">Sector</label>
+                    <select th:field="*{sectorId}" class="custom-select d-block w-100" id="country">
                         <option value="0">Choose...</option>
-                        <option th:each="country : ${countryList}" th:value="${country.id}" th:text="${country.country}"></option>
+                        <option th:each="sector : ${sectorList}" th:value="${sector.id}" th:text="${sector.sector}"></option>
                     </select>
                 </div>
                 <hr class="mb-4">
@@ -72,7 +72,7 @@
     </div>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2020 Code for Humans OÜ</p>
+        <p class="mb-1">&copy; 2021 Code for Humans OÜ</p>
     </footer>
 </div>
 </body>

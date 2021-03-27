@@ -1,8 +1,8 @@
 package ee.company.crm.domain.service.customer;
 
-public class CountryDto {
+public class SectorDto {
     private Long id;
-    private String country;
+    private String sector;
 
     public Long getId() {
         return id;
@@ -12,11 +12,11 @@ public class CountryDto {
         this.id = id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getSector() {
+        return sector;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 }

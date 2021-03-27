@@ -16,6 +16,6 @@
     <mappers>
         <mapper resource="mapper/customer.xml"/>
         <mapper resource="mapper/user.xml"/>
-        <mapper resource="mapper/country.xml"/>
+        <mapper resource="mapper/sector.xml"/>
     </mappers>
 </configuration>

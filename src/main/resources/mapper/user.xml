@@ -3,6 +3,6 @@
 
 <mapper namespace="ee.company.crm.domain.persistence.user.UserDao">
     <select id="findByUsername" parameterType="java.lang.String" resultType="ee.company.crm.domain.persistence.user.UserEntity">
-        SELECT * from test_data_user where username = #{username}
+        SELECT * from user where username = #{username}
     </select>
 </mapper>

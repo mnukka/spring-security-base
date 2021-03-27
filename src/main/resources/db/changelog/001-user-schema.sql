@@ -1,6 +1,6 @@
-create table test_data_user
+create table user
 (
-  id INTEGER constraint test_data_users_id_pk primary key autoincrement,
+  id INTEGER constraint users_id_pk primary key autoincrement,
   username TEXT NOT NULL,
   password TEXT NOT NULL
 );

@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface CountryDao {
-    List<CountryEntity> findAll();
+public interface SectorDao {
+    List<SectorEntity> findAll();
 
-    CountryEntity findById(Long id);
+    SectorEntity findById(Long id);
 }

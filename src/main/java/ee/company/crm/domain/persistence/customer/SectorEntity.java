@@ -1,7 +1,8 @@
 package ee.company.crm.domain.persistence.customer;
 
-public class CountryEntity {
+public class SectorEntity {
     private Long id;
+    private Long parentId;
     private String country;
     private Boolean enabled;
 
@@ -11,6 +12,14 @@ public class CountryEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getCountry() {

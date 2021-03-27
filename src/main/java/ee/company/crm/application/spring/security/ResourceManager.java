@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class ResourceManager {
     private UserService userService;
     private CustomerService customerService;
+    private final static String ANONYMOUS_USER = "anonymousUser";
 
     public ResourceManager(UserService userService, CustomerService customerService) {
         this.userService = userService;
@@ -17,17 +18,20 @@ public class ResourceManager {
     }
 
     public Boolean hasAccessToCustomer(String customerId) {
-        if ("anonymousUser".equals(userService.getCurrentRole())) {
+        if (ANONYMOUS_USER.equals(userService.getCurrentRole())) {
             return false;
         }
 
+        final long id;
         try {
-            CustomUser user = userService.getCurrentUserFromSession();
-            long id = Long.parseLong(customerId);
-            CustomerDto customer = customerService.findByUserAndCustomerId(user.getId(), id);
-            return customer != null;
+            id = Long.parseLong(customerId);
         } catch (NumberFormatException ex) {
             return false;
         }
+
+        CustomUser user = userService.getCurrentUserFromSession();
+        CustomerDto customer = customerService.findByUserAndCustomerId(user.getId(), id);
+        return customer != null;
+
     }
 }

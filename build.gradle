@@ -6,7 +6,6 @@ plugins {
 
 group = 'ee.company'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
 
 configurations {
 	developmentOnly
@@ -21,8 +20,9 @@ repositories {
 
 dependencies {
 	// Persistence
-	implementation group:'org.xerial', name:'sqlite-jdbc', version:'3.8.11.2'
 	implementation group:'org.mybatis.spring.boot', name:'mybatis-spring-boot-starter', version:'2.1.1'
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 	// Spring
 	implementation 'org.springframework.boot:spring-boot-starter-web'

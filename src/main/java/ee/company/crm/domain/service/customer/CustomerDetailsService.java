@@ -1,7 +1,7 @@
 package ee.company.crm.domain.service.customer;
 
-import ee.company.crm.domain.persistence.customer.CountryDao;
-import ee.company.crm.domain.persistence.customer.CountryEntity;
+import ee.company.crm.domain.persistence.customer.SectorDao;
+import ee.company.crm.domain.persistence.customer.SectorEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -11,21 +11,21 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerDetailsService {
 
-    private CountryDao countryDao;
+    private SectorDao sectorDao;
 
-    public CustomerDetailsService(CountryDao countryDao) {
-        this.countryDao = countryDao;
+    public CustomerDetailsService(SectorDao sectorDao) {
+        this.sectorDao = sectorDao;
     }
 
-    public CountryDto getCountryById(Long id) {
+    public SectorDto getCountryById(Long id) {
         final ModelMapper modelMapper = new ModelMapper();
-        final CountryEntity countryEntity = countryDao.findById(id);
-        return modelMapper.map(countryEntity, CountryDto.class);
+        final SectorEntity sectorEntity = sectorDao.findById(id);
+        return modelMapper.map(sectorEntity, SectorDto.class);
     }
 
-    public List<CountryDto> findAllCountries() {
+    public List<SectorDto> findAllCountries() {
         final ModelMapper modelMapper = new ModelMapper();
-        final List<CountryEntity> countryEntities = countryDao.findAll();
-        return countryEntities.stream().map(p -> modelMapper.map(p, CountryDto.class)).collect(Collectors.toList());
+        final List<SectorEntity> sectorEntities = sectorDao.findAll();
+        return sectorEntities.stream().map(p -> modelMapper.map(p, SectorDto.class)).collect(Collectors.toList());
     }
 }
