@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
+      file: db/changelog/000-setup.sql
+  - include:
       file: db/changelog/001-customer-manager-schema.sql
   - include:
       file: db/changelog/002-sector-schema.sql

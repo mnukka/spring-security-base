@@ -5,5 +5,3 @@ create table sector
   sector TEXT NOT NULL,
   enabled BOOLEAN DEFAULT true
 );
-
-CREATE EXTENSION tablefunc;
