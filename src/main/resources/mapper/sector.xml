@@ -7,6 +7,11 @@
     </select>
 
     <select id="findAll" resultType="ee.company.crm.domain.persistence.customer.SectorEntity">
-        SELECT * from sector where enabled = 'true';
+        SELECT *
+        FROM sector
+                 LEFT JOIN connectby('sector', 'id', 'parent_id', '1', 0, '->')
+            AS t(h_id int, h_parent_id int, level int, ord text)
+                           on h_id = sector.id
+        WHERE enabled = 'true';
     </select>
 </mapper>

@@ -8,7 +8,7 @@ VALUES ('Manufacturing'),
     ('Fish &amp; fish products '),
     ('Meat &amp; meat products'),
     ('Milk &amp; dairy products '),
-    ('Other'),
+    ('Other (Food and Beverage)'),
     ('Sweets &amp; snack food'),
     ('Furniture'),
     ('Bathroom/sauna '),
@@ -29,54 +29,35 @@ VALUES ('Manufacturing'),
     ('Boat/Yacht building'),
     ('Ship repair and conversion'),
     ('Metal structures'),
-    ('Other'),
-    ('Repair and maintenance service'),
-    ('Metalworking'),
-    ('Construction of metal structures'),
-    ('Houses and buildings'),
-    ('Metal products'),
-    ('Metal works'),
-    ('CNC-machining'),
-    ('Forgings, Fasteners '),
-    ('Gas, Plasma, Laser cutting'),
-    ('MIG, TIG, Aluminum welding'),
-    ('Plastic and Rubber'),
-    ('Packaging'),
-    ('Plastic goods'),
-    ('Plastic processing technology'),
-    ('Blowing'),
-    ('Moulding'),
-    ('Plastics welding and processing'),
-    ('Plastic profiles'),
-    ('Printing '),
-    ('Advertising'),
-    ('Book/Periodicals printing'),
-    ('Labelling and packaging printing'),
-    ('Textile and Clothing'),
-    ('Clothing'),
-    ('Textile'),
-    ('Wood'),
-    ('Other (Wood)'),
-    ('Wooden building materials'),
-    ('Wooden houses'),
-    ('Other'),
-    ('Creative industries'),
-    ('Energy technology'),
-    ('Environment'),
-    ('Service'),
-    ('Business services'),
-    ('Engineering'),
-    ('Information Technology and Telecommunications'),
-    ('Data processing, Web portals, E-marketing'),
-    ('Programming, Consultancy'),
-    ('Software, Hardware'),
-    ('Telecommunications'),
-    ('Tourism'),
-    ('Translation services'),
-    ('Transport and Logistics'),
-    ('Air'),
-    ('Rail'),
-    ('Road'),
-    ('Water');
+    ('Other (Machinery)'),
+    ('Repair and maintenance service');
 
 UPDATE sector set parent_id = (SELECT id from sector where sector = 'Manufacturing') where sector != 'Manufacturing';
+
+UPDATE sector SET parent_id = (SELECT id FROM sector WHERE sector = 'Food and Beverage') WHERE sector = 'Bakery &amp; confectionery products';
+UPDATE sector SET parent_id = (SELECT id FROM sector WHERE sector = 'Food and Beverage') WHERE sector = 'Fish &amp; fish products ';
+UPDATE sector SET parent_id = (SELECT id FROM sector WHERE sector = 'Food and Beverage') WHERE sector = 'Beverages';
+UPDATE sector SET parent_id = (SELECT id FROM sector WHERE sector = 'Food and Beverage') WHERE sector = 'Milk &amp; dairy products ';
+UPDATE sector SET parent_id = (SELECT id FROM sector WHERE sector = 'Food and Beverage') WHERE sector = 'Meat &amp; meat products';
+
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Bathroom/sauna';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Bedroom';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Children’s room';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Kitchen';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Living room';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Office';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Other (Furniture)';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Outdoor';
+UPDATE sector SET parent_id = (SELECT id FROM sector where sector = 'Furniture') WHERE sector = 'Project furniture';
+
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Machinery components';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Machinery equipment/tools';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Manufacture of machinery ';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Maritime';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Metal structures';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Other (Machinery)';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Machinery') WHERE sector = 'Repair and maintenance service';
+
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Maritime') WHERE sector = 'Aluminium and steel workboats';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Maritime') WHERE sector = 'Boat/Yacht building';
+UPDATE sector set parent_id = (SELECT id FROM sector WHERE sector = 'Maritime') WHERE sector = 'Ship repair and conversion';

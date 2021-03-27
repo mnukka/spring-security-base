@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +65,11 @@ public class CustomerController {
     }
 
     private ModelAndView createModelView(CustomerDto customerDto) {
-        List<SectorDto> sectorDtoList = findAllCountries();
+        List<SectorDto> sectorDtoList = customerDetailsService.findAllSectors();
         ModelAndView model = new ModelAndView();
         model.addObject("customerDto", customerDto);
         model.addObject("sectorList", sectorDtoList);
         model.setViewName("customer");
         return model;
-    }
-    private List<SectorDto> findAllCountries() {
-        return customerDetailsService.findAllCountries();
     }
 }

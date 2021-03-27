@@ -9,7 +9,7 @@
                 username = #{username},
                 email = #{email},
                 address = #{address},
-                country_id = #{countryId}
+                sector_id = #{sectorId}
             WHERE
                 id = #{id};
     </update>
@@ -34,7 +34,7 @@
             username,
             email,
             address,
-            country_id,
+            sector_id,
             user_id
         ) VALUES (
             #{firstName},
@@ -42,7 +42,7 @@
             #{username},
             #{email},
             #{address},
-            #{countryId},
+            #{sectorId},
             #{userId}
         );
     </insert>

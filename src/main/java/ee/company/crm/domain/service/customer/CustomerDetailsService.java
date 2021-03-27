@@ -17,13 +17,13 @@ public class CustomerDetailsService {
         this.sectorDao = sectorDao;
     }
 
-    public SectorDto getCountryById(Long id) {
+    public SectorDto getSectorById(Long id) {
         final ModelMapper modelMapper = new ModelMapper();
         final SectorEntity sectorEntity = sectorDao.findById(id);
         return modelMapper.map(sectorEntity, SectorDto.class);
     }
 
-    public List<SectorDto> findAllCountries() {
+    public List<SectorDto> findAllSectors() {
         final ModelMapper modelMapper = new ModelMapper();
         final List<SectorEntity> sectorEntities = sectorDao.findAll();
         return sectorEntities.stream().map(p -> modelMapper.map(p, SectorDto.class)).collect(Collectors.toList());

@@ -1,11 +1,11 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/001-user-schema.sql
+      file: db/changelog/001-customer-manager-schema.sql
   - include:
       file: db/changelog/002-sector-schema.sql
   - include:
       file: db/changelog/003-customer-schema.sql
   - include:
-      file: db/changelog/004-user-insert.sql
+      file: db/changelog/004-customer-manager-insert.sql
   - include:
       file: db/changelog/005-sector-insert.sql

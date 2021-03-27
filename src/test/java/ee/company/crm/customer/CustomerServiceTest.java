@@ -65,7 +65,7 @@ public class CustomerServiceTest {
         assertEquals(customerDto.getLastName(), customerEntityCaptor.getValue().getLastName());
         assertEquals(customerDto.getEmail(), customerEntityCaptor.getValue().getEmail());
         assertEquals(customerDto.getUsername(), customerEntityCaptor.getValue().getUsername());
-        assertEquals(customerDto.getCountryId(), customerEntityCaptor.getValue().getCountryId());
+        assertEquals(customerDto.getSectorId(), customerEntityCaptor.getValue().getSectorId());
     }
 
     private CustomerEntity createCustomerEntity(Integer customerId) {
@@ -76,7 +76,7 @@ public class CustomerServiceTest {
         customerEntity.setEmail("email");
         customerEntity.setAddress("Addrssss");
         customerEntity.setUsername("user");
-        customerEntity.setCountryId(1L);
+        customerEntity.setSectorId(1L);
         return customerEntity;
     }
 

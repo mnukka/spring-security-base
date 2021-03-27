@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class CountryExistsValidatorImpl implements ConstraintValidator<CountryExists, Long> {
+public class SectorExistsValidator implements ConstraintValidator<SectorExists, Long> {
     @Autowired
     CustomerDetailsService customerDetailsService;
 
-    public void initialize(CountryExists constraint) {
+    public void initialize(SectorExists constraint) {
     }
 
     public boolean isValid(Long countryId, ConstraintValidatorContext context) {
@@ -19,7 +19,7 @@ public class CountryExistsValidatorImpl implements ConstraintValidator<CountryEx
        }
 
        try {
-          customerDetailsService.getCountryById(countryId);
+          customerDetailsService.getSectorById(countryId);
        } catch (Exception ex) {
           return false;
        }
