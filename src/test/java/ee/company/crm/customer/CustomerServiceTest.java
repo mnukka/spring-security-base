@@ -1,10 +1,10 @@
 package ee.company.crm.customer;
 
 import ee.company.crm.application.spring.security.user.UserSession;
-import ee.company.crm.domain.persistence.profile.ProfileDao;
-import ee.company.crm.domain.persistence.profile.ProfileEntity;
-import ee.company.crm.domain.service.profile.ProfileDto;
-import ee.company.crm.domain.service.profile.ProfileService;
+import ee.company.crm.domain.persistence.user.profile.ProfileDao;
+import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
+import ee.company.crm.application.web.profile.ProfileDto;
+import ee.company.crm.domain.service.user.profile.ProfileService;
 import ee.company.crm.domain.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;

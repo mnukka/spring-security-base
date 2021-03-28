@@ -1,4 +1,4 @@
-package ee.company.crm.domain.service.profile;
+package ee.company.crm.application.web.profile;
 
 import ee.company.crm.application.spring.constraint.SectorExists;
 import lombok.Data;

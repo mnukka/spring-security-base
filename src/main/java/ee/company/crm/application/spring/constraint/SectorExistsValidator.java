@@ -1,6 +1,6 @@
 package ee.company.crm.application.spring.constraint;
 
-import ee.company.crm.domain.service.profile.SectorService;
+import ee.company.crm.domain.service.sector.SectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

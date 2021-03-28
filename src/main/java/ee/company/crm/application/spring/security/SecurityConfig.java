@@ -33,14 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-
-                .antMatchers("/profile/{id}").access("@resourceManager.hasAccessToProfile(#id)")
+                .antMatchers("/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .loginProcessingUrl("/doLogin")
-                .successForwardUrl("/profile")
+                .successForwardUrl("/index")
 
                 .and()
                 .logout().permitAll().logoutUrl("/logout")

@@ -1,8 +1,9 @@
-package ee.company.crm.domain.service.profile;
+package ee.company.crm.domain.service.user.profile;
 
 import ee.company.crm.application.spring.security.user.UserSession;
-import ee.company.crm.domain.persistence.profile.ProfileDao;
-import ee.company.crm.domain.persistence.profile.ProfileEntity;
+import ee.company.crm.application.web.profile.ProfileDto;
+import ee.company.crm.domain.persistence.user.profile.ProfileDao;
+import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
 import ee.company.crm.domain.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -39,13 +40,13 @@ public class ProfileService {
         return entity.getId();
     }
 
-    public ProfileEntity mapCustomerData(ProfileDto profileDto) {
+    private ProfileEntity mapCustomerData(ProfileDto profileDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(profileDto, ProfileEntity.class);
     }
 
-    public Optional<ProfileDto> findByUserAndCustomerId(Long userId, long customerId) {
-        final ProfileEntity profileEntity = profileDao.findByUserAndProfileId(userId, customerId);
+    public Optional<ProfileDto> findByUserAndProfileId(Long userId, long profileId) {
+        final ProfileEntity profileEntity = profileDao.findByUserAndProfileId(userId, profileId);
         if (profileEntity == null) {
             return Optional.empty();
         }
@@ -59,7 +60,13 @@ public class ProfileService {
         profileDao.update(entity);
     }
 
-    public ProfileDto find() {
-        return new ProfileDto();
+    public Optional<ProfileDto> find() {
+        UserSession currentUser = userService.getCurrentUserFromSession();
+        final ModelMapper modelMapper = new ModelMapper();
+        ProfileEntity entity = profileDao.findByUserid(currentUser.getId());
+        if (entity == null) {
+            return Optional.empty();
+        }
+        return Optional.of(modelMapper.map(entity, ProfileDto.class));
     }
 }

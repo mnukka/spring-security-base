@@ -1,4 +1,4 @@
-package ee.company.crm.domain.persistence.profile;
+package ee.company.crm.domain.persistence.user.profile;
 
 public class UserSectorEntity {
     private long id;

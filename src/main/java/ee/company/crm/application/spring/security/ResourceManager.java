@@ -1,8 +1,8 @@
 package ee.company.crm.application.spring.security;
 
 import ee.company.crm.application.spring.security.user.UserSession;
-import ee.company.crm.domain.service.profile.ProfileDto;
-import ee.company.crm.domain.service.profile.ProfileService;
+import ee.company.crm.application.web.profile.ProfileDto;
+import ee.company.crm.domain.service.user.profile.ProfileService;
 import ee.company.crm.domain.service.user.UserService;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ public class ResourceManager {
         }
 
         UserSession user = userService.getCurrentUserFromSession();
-        Optional<ProfileDto> profile = profileService.findByUserAndCustomerId(user.getId(), id);
+        Optional<ProfileDto> profile = profileService.findByUserAndProfileId(user.getId(), id);
         return profile.isPresent();
     }
 }

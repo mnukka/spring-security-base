@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Customers</h2>
+    </div>
+    <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}"></div>
+
+    <div class="row">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <ul class="nav pull-right">
+                    <li><a th:href="@{/logout}" class="btn btn-done" > Logout </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="my-2">
+            <a th:href="@{/profile/edit}" class="btn btn-primary">Edit Profile</a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fullname</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${profileModel?.getId() == null}">
+                <td colspan="3">No profile</td>
+            </tr>
+            <tr>
+                <th scope="row" th:text="${profileModel?.getId()}"></th>
+                <td th:text="${profileModel?.getFullName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2020 Code for Humans OÜ</p>
+</footer>
+</div>
+</body>
+</html>

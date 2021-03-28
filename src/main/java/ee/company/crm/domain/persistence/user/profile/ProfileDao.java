@@ -1,9 +1,7 @@
-package ee.company.crm.domain.persistence.profile;
+package ee.company.crm.domain.persistence.user.profile;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Mapper
 @Repository
@@ -12,7 +10,7 @@ public interface ProfileDao {
 
     public ProfileEntity findById(Integer profileId);
 
-    public List<ProfileEntity> findByUserid(Long userId);
+    public ProfileEntity findByUserid(Long userId);
 
     void update(ProfileEntity entity);
 

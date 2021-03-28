@@ -1,7 +1,8 @@
-package ee.company.crm.domain.service.profile;
+package ee.company.crm.domain.service.sector;
 
-import ee.company.crm.domain.persistence.profile.SectorDao;
-import ee.company.crm.domain.persistence.profile.SectorEntity;
+import ee.company.crm.application.web.profile.SectorDto;
+import ee.company.crm.domain.persistence.sector.SectorDao;
+import ee.company.crm.domain.persistence.sector.SectorEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

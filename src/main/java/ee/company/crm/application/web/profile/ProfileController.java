@@ -1,12 +1,9 @@
 package ee.company.crm.application.web.profile;
 
-import ee.company.crm.domain.service.profile.SectorDto;
-import ee.company.crm.domain.service.profile.SectorService;
-import ee.company.crm.domain.service.profile.ProfileDto;
-import ee.company.crm.domain.service.profile.ProfileService;
+import ee.company.crm.domain.service.sector.SectorService;
+import ee.company.crm.domain.service.user.profile.ProfileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,21 +19,17 @@ public class ProfileController {
     private ProfileService profileService;
     private SectorService sectorService;
 
-    private final static String VIEW_NAME = "profile";
-    private final static String MODEL_NAME = "profileModel";
+    private final static String PROFILE_VIEW = "profile";
+    private final static String INDEX_VIEW = "index";
+    private final static String MODEL = "profileModel";
 
     public ProfileController(ProfileService profileService, SectorService sectorService) {
         this.profileService = profileService;
         this.sectorService = sectorService;
     }
-    @RequestMapping(value = {"", "/" ,"profile"})
+    @RequestMapping(value = {"", "/" ,"index"})
     public ModelAndView profile() {
-        return new ModelAndView(VIEW_NAME, MODEL_NAME, profileService.find()).addObject("globalMessage", "Welcome");
-    }
-
-    @RequestMapping(value = "add")
-    public ModelAndView add() {
-        return createModelView(new ProfileDto());
+        return new ModelAndView(INDEX_VIEW, MODEL, fetchProfileOrCreateEmpty());
     }
 
     @RequestMapping(value="modify", method = RequestMethod.POST)
@@ -55,22 +48,22 @@ public class ProfileController {
             redirect.addFlashAttribute("globalMessage", "Successfully updated the profile");
         }
 
-        return new ModelAndView("redirect:/profile");
+        return new ModelAndView("redirect:/index");
     }
 
-    @RequestMapping(value = "profile/{id}")
-    public ModelAndView view(@PathVariable Integer id) {
-        Optional<ProfileDto> profile = profileService.findById(id);
-        ProfileDto profileDto = profile.orElse(new ProfileDto());
-        return createModelView(profileDto);
+    @RequestMapping(value = "profile/edit")
+    public ModelAndView edit() {
+        ProfileDto profile = fetchProfileOrCreateEmpty();
+        return createModelView(profile);
+    }
+
+    private ProfileDto fetchProfileOrCreateEmpty() {
+        Optional<ProfileDto> profile = profileService.find();
+        return profile.orElse(new ProfileDto());
     }
 
     private ModelAndView createModelView(ProfileDto profileDto) {
         List<SectorDto> sectorDtoList = sectorService.findAllSectors();
-        ModelAndView model = new ModelAndView();
-        model.addObject("profileDto", profileDto);
-        model.addObject("sectorList", sectorDtoList);
-        model.setViewName(VIEW_NAME);
-        return model;
+        return new ModelAndView(PROFILE_VIEW, MODEL, profileDto).addObject("sectorList", sectorDtoList);
     }
 }

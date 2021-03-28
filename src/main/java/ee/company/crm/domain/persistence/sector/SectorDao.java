@@ -1,4 +1,4 @@
-package ee.company.crm.domain.persistence.profile;
+package ee.company.crm.domain.persistence.sector;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
