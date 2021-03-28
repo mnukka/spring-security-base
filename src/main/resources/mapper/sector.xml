@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ee.company.crm.domain.persistence.customer.SectorDao">
-    <select id="findById" parameterType="java.lang.Long" resultType="ee.company.crm.domain.persistence.customer.SectorEntity">
+<mapper namespace="ee.company.crm.domain.persistence.profile.SectorDao">
+    <select id="findById" parameterType="java.lang.Long" resultType="ee.company.crm.domain.persistence.profile.SectorEntity">
         SELECT * from sector where id = #{id} AND enabled = 'true';
     </select>
 
-    <select id="findAll" resultType="ee.company.crm.domain.persistence.customer.SectorEntity">
+    <select id="findAll" resultType="ee.company.crm.domain.persistence.profile.SectorEntity">
         SELECT *
         FROM sector
                  LEFT JOIN connectby('sector', 'id', 'parent_id', '1', 0, '->')

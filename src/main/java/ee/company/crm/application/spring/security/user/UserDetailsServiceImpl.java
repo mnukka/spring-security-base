@@ -1,6 +1,5 @@
 package ee.company.crm.application.spring.security.user;
 
-import ee.company.crm.domain.persistence.user.UserDao;
 import ee.company.crm.domain.persistence.user.UserEntity;
 import ee.company.crm.domain.service.user.UserService;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + username);
         }
-        return new CustomUser(
+        return new UserSession(
                 user.getUsername(),
                 user.getPassword(),
                 true,

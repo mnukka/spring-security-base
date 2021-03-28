@@ -1,4 +1,4 @@
-package ee.company.crm.domain.service.customer;
+package ee.company.crm.domain.service.profile;
 
 import lombok.Data;
 

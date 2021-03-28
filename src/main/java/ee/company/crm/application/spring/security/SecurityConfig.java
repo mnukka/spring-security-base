@@ -34,13 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
 
-                .antMatchers("/customer/{id}").access("@resourceManager.hasAccessToCustomer(#id)")
+                .antMatchers("/profile/{id}").access("@resourceManager.hasAccessToProfile(#id)")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .loginProcessingUrl("/doLogin")
-                .successForwardUrl("/customers")
+                .successForwardUrl("/profile")
 
                 .and()
                 .logout().permitAll().logoutUrl("/logout")

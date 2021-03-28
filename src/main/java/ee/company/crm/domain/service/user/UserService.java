@@ -1,6 +1,6 @@
 package ee.company.crm.domain.service.user;
 
-import ee.company.crm.application.spring.security.user.CustomUser;
+import ee.company.crm.application.spring.security.user.UserSession;
 import ee.company.crm.domain.persistence.user.UserDao;
 import ee.company.crm.domain.persistence.user.UserEntity;
 import org.springframework.security.core.context.SecurityContext;
@@ -19,9 +19,9 @@ public class UserService {
         return userDao.findByUsername(username);
     }
 
-    public CustomUser getCurrentUserFromSession() {
+    public UserSession getCurrentUserFromSession() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        return (CustomUser) securityContext.getAuthentication().getPrincipal();
+        return (UserSession) securityContext.getAuthentication().getPrincipal();
     }
 
     public String getCurrentRole() {

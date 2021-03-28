@@ -1,10 +1,10 @@
 package ee.company.crm.customer;
 
-import ee.company.crm.application.spring.security.user.CustomUser;
-import ee.company.crm.domain.persistence.customer.CustomerDao;
-import ee.company.crm.domain.persistence.customer.CustomerEntity;
-import ee.company.crm.domain.service.customer.CustomerDto;
-import ee.company.crm.domain.service.customer.CustomerService;
+import ee.company.crm.application.spring.security.user.UserSession;
+import ee.company.crm.domain.persistence.profile.ProfileDao;
+import ee.company.crm.domain.persistence.profile.ProfileEntity;
+import ee.company.crm.domain.service.profile.ProfileDto;
+import ee.company.crm.domain.service.profile.ProfileService;
 import ee.company.crm.domain.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -22,75 +22,70 @@ import static org.mockito.Mockito.*;
 public class CustomerServiceTest {
 
     @Captor
-    ArgumentCaptor<CustomerEntity> customerEntityCaptor;
+    ArgumentCaptor<ProfileEntity> customerEntityCaptor;
 
     @Mock
-    CustomerDao customerDao;
+    ProfileDao profileDao;
 
     @Mock
     UserService userService;
 
     @Spy
     @InjectMocks
-    CustomerService customerService;
+    ProfileService profileService;
 
     @Test
     void whenRetrievingCustomer_IsCustomerDaoExecuted() {
         // given
         Integer customerId = 1;
-        CustomerEntity customerEntity = createCustomerEntity(customerId);
+        ProfileEntity profileEntity = createCustomerEntity(customerId);
 
         // when
-        when(customerDao.findById(customerId)).thenReturn(customerEntity);
-        customerService.getCustomerByCustomerId(customerId);
+        when(profileDao.findById(customerId)).thenReturn(profileEntity);
+        profileService.findById(customerId);
 
         // then
-        verify(customerDao, times(1)).findById(customerId);
+        verify(profileDao, times(1)).findById(customerId);
     }
 
     @Test
     void whenCreatingNewCustomer_VerifyEntityMapping() {
         // given
-        CustomUser user = createUser();
-        CustomerDto customerDto = createCustomerDto();
+        UserSession user = createUser();
+        ProfileDto profileDto = createCustomerDto();
 
         // when
         when(userService.getCurrentUserFromSession()).thenReturn(user);
-        customerService.createCustomer(customerDto);
+        profileService.create(profileDto);
 
         // then
-        verify(customerDao).insert(customerEntityCaptor.capture());
+        verify(profileDao).insert(customerEntityCaptor.capture());
         assertEquals(user.getId(), customerEntityCaptor.getValue().getUserId());
-        assertEquals(customerDto.getFirstName(), customerEntityCaptor.getValue().getFirstName());
-        assertEquals(customerDto.getLastName(), customerEntityCaptor.getValue().getLastName());
-        assertEquals(customerDto.getEmail(), customerEntityCaptor.getValue().getEmail());
-        assertEquals(customerDto.getUsername(), customerEntityCaptor.getValue().getUsername());
-        assertEquals(customerDto.getSectorId(), customerEntityCaptor.getValue().getSectorId());
+        assertEquals(profileDto.getFullName(), customerEntityCaptor.getValue().getFullName());
+        assertEquals(profileDto.getTermsAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
     }
 
-    private CustomerEntity createCustomerEntity(Integer customerId) {
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setId(Long.valueOf(customerId));
-        customerEntity.setFirstName("firstName");
-        customerEntity.setLastName("lastName");
-        customerEntity.setEmail("email");
-        customerEntity.setAddress("Addrssss");
-        customerEntity.setUsername("user");
-        customerEntity.setSectorId(1L);
-        return customerEntity;
+    private ProfileEntity createCustomerEntity(Integer customerId) {
+        ProfileEntity profileEntity = new ProfileEntity();
+        profileEntity.setId(Long.valueOf(customerId));
+        profileEntity.setFullName("fullName");
+        profileEntity.setTermsOfAgreement(true);
+        return profileEntity;
     }
 
-    private CustomerDto createCustomerDto() {
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setEmail("email");
-        customerDto.setFirstName("firstName");
-        customerDto.setLastName("lastName");
-        return customerDto;
+    private ProfileDto createCustomerDto() {
+        ProfileDto profileDto = new ProfileDto();
+        profileDto.setFullName("fullName");
+        profileDto.setTermsAgreement(true);
+        return profileDto;
     }
 
-    private CustomUser createUser() {
-        Collection<? extends GrantedAuthority> role = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        CustomUser user = new CustomUser(
+    private UserSession createUser() {
+        Collection<? extends GrantedAuthority> role = Collections.singletonList(
+                new SimpleGrantedAuthority("ROLE_USER")
+        );
+
+        UserSession user = new UserSession(
                 "a",
                 "b",
                 true,

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ee.company.crm.domain.persistence.profile.ProfileDao">
+    <update id="update">
+        UPDATE user_profile
+            SET full_name = #{fullName},
+                terms_of_agreement = #{termsOfAgreement}
+            WHERE
+                id = #{id};
+    </update>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="ee.company.crm.domain.persistence.profile.ProfileEntity">
+        SELECT * from user_profile where id = #{id}
+    </select>
+
+    <select id="findByUserid" resultType="ee.company.crm.domain.persistence.profile.ProfileEntity">
+        SELECT * FROM user_profile WHERE user_id = #{userId}
+    </select>
+
+    <select id="findByUserAndProfileId"
+            resultType="ee.company.crm.domain.persistence.profile.ProfileEntity">
+        SELECT * FROM user_profile WHERE user_id = #{userId} AND id = #{profileId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user_profile (
+            full_name,
+            terms_of_agreement,
+            user_id
+        ) VALUES (
+            #{fullName},
+            #{termsOfAgreement},
+            #{userId}
+        );
+    </insert>
+</mapper>

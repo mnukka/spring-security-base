@@ -1,7 +1,7 @@
-package ee.company.crm.domain.service.customer;
+package ee.company.crm.domain.service.profile;
 
-import ee.company.crm.domain.persistence.customer.SectorDao;
-import ee.company.crm.domain.persistence.customer.SectorEntity;
+import ee.company.crm.domain.persistence.profile.SectorDao;
+import ee.company.crm.domain.persistence.profile.SectorEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerDetailsService {
+public class SectorService {
 
     private SectorDao sectorDao;
 
-    public CustomerDetailsService(SectorDao sectorDao) {
+    public SectorService(SectorDao sectorDao) {
         this.sectorDao = sectorDao;
     }
 

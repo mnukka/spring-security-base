@@ -1,6 +1,6 @@
 package ee.company.crm.application.spring.constraint;
 
-import ee.company.crm.domain.service.customer.CustomerDetailsService;
+import ee.company.crm.domain.service.profile.SectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class SectorExistsValidator implements ConstraintValidator<SectorExists, Long> {
     @Autowired
-    CustomerDetailsService customerDetailsService;
+    SectorService sectorService;
 
     public void initialize(SectorExists constraint) {
     }
@@ -19,7 +19,7 @@ public class SectorExistsValidator implements ConstraintValidator<SectorExists, 
        }
 
        try {
-          customerDetailsService.getSectorById(countryId);
+          sectorService.getSectorById(countryId);
        } catch (Exception ex) {
           return false;
        }

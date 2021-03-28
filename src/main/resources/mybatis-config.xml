@@ -14,8 +14,8 @@
         <typeAlias alias="LinkedList" type="java.util.LinkedList" />
     </typeAliases>
     <mappers>
-        <mapper resource="mapper/customer.xml"/>
-        <mapper resource="mapper/customer_manager.xml"/>
         <mapper resource="mapper/sector.xml"/>
+        <mapper resource="mapper/user_credentials.xml"/>
+        <mapper resource="mapper/user_profile.xml"/>
     </mappers>
 </configuration>

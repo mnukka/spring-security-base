@@ -2,12 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
-
-    <title>Customer list</title>
+    <title>Profile</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -22,7 +17,7 @@
     <div class="py-5 text-center">
         <h2>Customers</h2>
     </div>
-    <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>
+    <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}"></div>
 
     <div class="row">
         <div class="navbar">
@@ -34,30 +29,26 @@
         </div>
 
         <div class="my-2">
-            <a th:href="@{/add}" class="btn btn-primary">Add Customer</a>
+            <a th:href="@{/add}" class="btn btn-primary">Add Profile</a>
         </div>
 
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Username</th>
+                <th scope="col">Fullname</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${customers.empty}">
-                <td colspan="3">No customers</td>
+            <tr th:if="${profileModel}">
+                <td colspan="3">No profile</td>
             </tr>
-            <tr th:each="customer : ${customers}">
-                <th scope="row" th:text="${customer.id}"></th>
-                <td th:text="${customer.firstName}"></td>
-                <td th:text="${customer.lastName}"></td>
-                <td th:text="${customer.username}"></td>
+            <tr>
+                <th scope="row" th:text="${profileModel.getId()}"></th>
+                <td th:text="${profileModel.getFullName()}"></td>
                 <td>
-                    <a th:href="@{'/customer/'+ ${customer.id}}" class="btn btn-primary">Edit Customer</a>
+                    <a th:href="@{'/profile/'+ ${profileModel.getId()}}" class="btn btn-primary">Edit Profile</a>
                 </td>
             </tr>
             </tbody>

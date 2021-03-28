@@ -1,4 +1,4 @@
-package ee.company.crm.domain.persistence.customer;
+package ee.company.crm.domain.persistence.profile;
 
 import lombok.Data;
 
