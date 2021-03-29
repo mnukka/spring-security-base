@@ -22,15 +22,19 @@ public class ProfileService {
         this.userService = userService;
     }
 
-    public Optional<ProfileDto> find() {
+    public Optional<ProfileDto> fetch() {
         UserSession currentUser = userService.getCurrentUserFromSession();
         final ModelMapper modelMapper = new ModelMapper();
         Optional<ProfileEntity> entity = profileDao.findByUserid(currentUser.getId());
         return entity.map(profileEntity -> modelMapper.map(profileEntity, ProfileDto.class));
     }
 
+    public ProfileDto fetchOrEmpty() {
+        return fetch().orElse(new ProfileDto());
+    }
+
     public void upsert(ProfileDto profileDto) {
-        Optional<ProfileDto> entity = find();
+        Optional<ProfileDto> entity = fetch();
         if (entity.isPresent()) {
             profileDto.setId(entity.get().getId());
             update((profileDto));
@@ -58,6 +62,4 @@ public class ProfileService {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(profileDto, ProfileEntity.class);
     }
-
-
 }

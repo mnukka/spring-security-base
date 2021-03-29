@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -23,6 +22,10 @@ public class ProfileController {
     private final static String PROFILE_VIEW = "profile";
     private final static String INDEX_VIEW = "index";
     private final static String MODEL = "profileModel";
+    private final static String ERROR_ATTR = "formErrors";
+    private final static String SECTOR_ATTR = "sectorList";
+    private final static String MSG_ATTR = "globalMessage";
+    private final static String PROFILE_UPDATED = "Profile updated";
 
     public ProfileController(ProfileService profileService, SectorService sectorService) {
         this.profileService = profileService;
@@ -31,34 +34,29 @@ public class ProfileController {
 
     @RequestMapping(value = {"", "/", "index"})
     public ModelAndView index() {
-        return new ModelAndView(INDEX_VIEW, MODEL, fetchProfileOrCreateEmpty());
+        return new ModelAndView(INDEX_VIEW, MODEL, profileService.fetchOrEmpty());
     }
 
     @RequestMapping(value = "profile/update", method = RequestMethod.POST)
     public ModelAndView update(@Valid final @ModelAttribute(MODEL) ProfileDto profileDto, final BindingResult result, final RedirectAttributes redirect) {
         if (result.hasErrors()) {
-            return createViewModel(profileDto).addObject("formErrors", result.getAllErrors());
+            return createViewModel(profileDto).addObject(ERROR_ATTR, result.getAllErrors());
         }
 
         profileService.upsert(profileDto);
-        redirect.addFlashAttribute("globalMessage", "Profile updated");
+        redirect.addFlashAttribute(MSG_ATTR, PROFILE_UPDATED);
 
         return new ModelAndView("redirect:/index");
     }
 
     @RequestMapping(value = "profile/view")
     public ModelAndView view() {
-        ProfileDto profileDto = fetchProfileOrCreateEmpty();
+        ProfileDto profileDto =  profileService.fetchOrEmpty();
         return createViewModel(profileDto);
-    }
-
-    private ProfileDto fetchProfileOrCreateEmpty() {
-        Optional<ProfileDto> profile = profileService.find();
-        return profile.orElse(new ProfileDto());
     }
 
     private ModelAndView createViewModel(ProfileDto profileDto) {
         List<SectorDto> sectorDtoList = sectorService.findAllSectors();
-        return new ModelAndView(PROFILE_VIEW, MODEL, profileDto).addObject("sectorList", sectorDtoList);
+        return new ModelAndView(PROFILE_VIEW, MODEL, profileDto).addObject(SECTOR_ATTR, sectorDtoList);
     }
 }
