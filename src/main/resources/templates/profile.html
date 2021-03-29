@@ -56,7 +56,8 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <input type="checkbox" name="active" th:checked="*{termsOfAgreement}" id="termsOfAgreement">
+                    <!-- Why null -->
+                    <input type="checkbox" name="termsOfAgreement" th:checked="*{termsOfAgreement}" id="termsOfAgreement">
                     <label for="termsOfAgreement">Agree to terms</label>
                 </div>
                 <hr class="mb-4">

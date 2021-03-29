@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface UserSectorDao {
-    public long insert(UserSectorEntity entity);
+    long insert(UserSectorEntity entity);
 }

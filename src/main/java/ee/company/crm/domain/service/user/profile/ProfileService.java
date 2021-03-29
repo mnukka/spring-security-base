@@ -25,19 +25,18 @@ public class ProfileService {
     public Optional<ProfileDto> find() {
         UserSession currentUser = userService.getCurrentUserFromSession();
         final ModelMapper modelMapper = new ModelMapper();
-        ProfileEntity entity = profileDao.findByUserid(currentUser.getId());
-        if (entity == null) {
-            return Optional.empty();
-        }
-        return Optional.of(modelMapper.map(entity, ProfileDto.class));
+        Optional<ProfileEntity> entity = profileDao.findByUserid(currentUser.getId());
+        return entity.map(profileEntity -> modelMapper.map(profileEntity, ProfileDto.class));
     }
 
-    @Transactional
-    public void create(ProfileDto profileDto) {
-        UserSession currentUser = userService.getCurrentUserFromSession();
-        ProfileEntity entity = mapCustomerData(profileDto);
-        entity.setUserId(currentUser.getId());
-        profileDao.insert(entity);
+    public void upsert(ProfileDto profileDto) {
+        Optional<ProfileDto> entity = find();
+        if (entity.isPresent()) {
+            profileDto.setId(entity.get().getId());
+            update((profileDto));
+        } else {
+            create(profileDto);
+        }
     }
 
     @Transactional
@@ -47,6 +46,13 @@ public class ProfileService {
         profileDao.update(entity);
     }
 
+    @Transactional
+    public void create(ProfileDto profileDto) {
+        UserSession currentUser = userService.getCurrentUserFromSession();
+        ProfileEntity entity = mapCustomerData(profileDto);
+        entity.setUserId(currentUser.getId());
+        profileDao.insert(entity);
+    }
 
     private ProfileEntity mapCustomerData(ProfileDto profileDto) {
         ModelMapper modelMapper = new ModelMapper();

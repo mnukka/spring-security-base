@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private UserDao userDao;
+    private final UserDao userDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
@@ -22,9 +22,5 @@ public class UserService {
     public UserSession getCurrentUserFromSession() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return (UserSession) securityContext.getAuthentication().getPrincipal();
-    }
-
-    public String getCurrentRole() {
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
     }
 }
