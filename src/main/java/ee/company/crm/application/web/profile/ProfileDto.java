@@ -15,9 +15,8 @@ public class ProfileDto {
     @NotBlank(message = "Name is required.")
     private String fullName;
 
-    @NotBlank(message = "Agreement to terms are mandatory.")
-    @AssertTrue
-    private Boolean termsAgreement;
+    @AssertTrue(message = "Agreement to terms are mandatory.")
+    private Boolean termsOfAgreement;
 
     @SectorExists
     private List<Long> sectorIds;

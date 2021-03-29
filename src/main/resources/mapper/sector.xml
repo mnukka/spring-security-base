@@ -2,10 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ee.company.crm.domain.persistence.sector.SectorDao">
-    <select id="findById" parameterType="java.lang.Long" resultType="ee.company.crm.domain.persistence.sector.SectorEntity">
-        SELECT * from sector where id = #{id} AND enabled = 'true';
-    </select>
-
     <select id="findAll" resultType="ee.company.crm.domain.persistence.sector.SectorEntity">
         SELECT *
         FROM sector

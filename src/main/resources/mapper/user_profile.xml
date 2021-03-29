@@ -10,28 +10,19 @@
                 id = #{id};
     </update>
 
-    <select id="findById" parameterType="java.lang.Integer" resultType="ee.company.crm.domain.persistence.user.profile.ProfileEntity">
-        SELECT * from user_profile where id = #{id}
-    </select>
-
     <select id="findByUserid" resultType="ee.company.crm.domain.persistence.user.profile.ProfileEntity">
         SELECT * FROM user_profile WHERE user_id = #{userId}
     </select>
 
-    <select id="findByUserAndProfileId"
-            resultType="ee.company.crm.domain.persistence.user.profile.ProfileEntity">
-        SELECT * FROM user_profile WHERE user_id = #{userId} AND id = #{profileId}
-    </select>
-
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO user_profile (
+            user_id,
             full_name,
-            terms_of_agreement,
-            user_id
+            terms_of_agreement
         ) VALUES (
+            #{userId},
             #{fullName},
-            #{termsOfAgreement},
-            #{userId}
+            #{termsOfAgreement}
         );
     </insert>
 </mapper>

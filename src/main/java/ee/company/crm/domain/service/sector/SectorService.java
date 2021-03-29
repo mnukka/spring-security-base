@@ -12,16 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class SectorService {
 
-    private SectorDao sectorDao;
+    private final SectorDao sectorDao;
 
     public SectorService(SectorDao sectorDao) {
         this.sectorDao = sectorDao;
-    }
-
-    public SectorDto getSectorById(Long id) {
-        final ModelMapper modelMapper = new ModelMapper();
-        final SectorEntity sectorEntity = sectorDao.findById(id);
-        return modelMapper.map(sectorEntity, SectorDto.class);
     }
 
     public List<SectorDto> findAllSectors() {

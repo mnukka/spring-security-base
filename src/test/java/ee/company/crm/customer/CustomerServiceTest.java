@@ -35,20 +35,6 @@ public class CustomerServiceTest {
     ProfileService profileService;
 
     @Test
-    void whenRetrievingCustomer_IsCustomerDaoExecuted() {
-        // given
-        Integer customerId = 1;
-        ProfileEntity profileEntity = createCustomerEntity(customerId);
-
-        // when
-        when(profileDao.findById(customerId)).thenReturn(profileEntity);
-        profileService.findById(customerId);
-
-        // then
-        verify(profileDao, times(1)).findById(customerId);
-    }
-
-    @Test
     void whenCreatingNewCustomer_VerifyEntityMapping() {
         // given
         UserSession user = createUser();
@@ -62,7 +48,7 @@ public class CustomerServiceTest {
         verify(profileDao).insert(customerEntityCaptor.capture());
         assertEquals(user.getId(), customerEntityCaptor.getValue().getUserId());
         assertEquals(profileDto.getFullName(), customerEntityCaptor.getValue().getFullName());
-        assertEquals(profileDto.getTermsAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
+        assertEquals(profileDto.getTermsOfAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
     }
 
     private ProfileEntity createCustomerEntity(Integer customerId) {
@@ -76,7 +62,7 @@ public class CustomerServiceTest {
     private ProfileDto createCustomerDto() {
         ProfileDto profileDto = new ProfileDto();
         profileDto.setFullName("fullName");
-        profileDto.setTermsAgreement(true);
+        profileDto.setTermsOfAgreement(true);
         return profileDto;
     }
 

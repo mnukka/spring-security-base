@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface SectorDao {
     List<SectorEntity> findAll();
-
-    SectorEntity findById(Long id);
 }

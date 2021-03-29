@@ -10,14 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
 public class ProfileController {
-    private ProfileService profileService;
-    private SectorService sectorService;
+    private final ProfileService profileService;
+    private final SectorService sectorService;
 
     private final static String PROFILE_VIEW = "profile";
     private final static String INDEX_VIEW = "index";
@@ -28,12 +29,12 @@ public class ProfileController {
         this.sectorService = sectorService;
     }
     @RequestMapping(value = {"", "/" ,"index"})
-    public ModelAndView profile() {
+    public ModelAndView index() {
         return new ModelAndView(INDEX_VIEW, MODEL, fetchProfileOrCreateEmpty());
     }
 
-    @RequestMapping(value="modify", method = RequestMethod.POST)
-    public ModelAndView create(@Valid final ProfileDto profileDto, final BindingResult result, final RedirectAttributes redirect) {
+    @RequestMapping(value="profile/update", method = RequestMethod.POST)
+    public ModelAndView update(@Valid final ProfileDto profileDto, final BindingResult result, final RedirectAttributes redirect) {
         if (result.hasErrors()) {
             ModelAndView model = createModelView(profileDto);
             model.addObject("formErrors", result.getAllErrors());
@@ -51,8 +52,8 @@ public class ProfileController {
         return new ModelAndView("redirect:/index");
     }
 
-    @RequestMapping(value = "profile/edit")
-    public ModelAndView edit() {
+    @RequestMapping(value = "profile/view")
+    public ModelAndView view() {
         ProfileDto profile = fetchProfileOrCreateEmpty();
         return createModelView(profile);
     }
