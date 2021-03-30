@@ -17,5 +17,6 @@
         <mapper resource="mapper/sector.xml"/>
         <mapper resource="mapper/user_credentials.xml"/>
         <mapper resource="mapper/user_profile.xml"/>
+        <mapper resource="mapper/user_sector.xml"/>
     </mappers>
 </configuration>

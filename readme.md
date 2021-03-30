@@ -14,7 +14,7 @@ Users: Taavi, Juku, Elon
 pwd: kukejaan
 
 ## Stack
-1) Java 8
+1) Java 11
 2) Spring boot
 3) Persistence: Mybatis, postgres, liquibase
 4) Thymeleaf
@@ -40,7 +40,7 @@ pwd: kukejaan
 ### Acceptance criteria remarks:
 Acceptance criteria #1 should be clarified.
 
-Acceptance criteria #4 has scope creep within it.
+Acceptance criteria #4 has scope creep
 
 ## Architecture ideas
 
@@ -81,3 +81,8 @@ Anti-pattern if adding multiple values into single column per row.
 Tends to go into conflict with single responsibility principle.
 
 Upside is that when the project isn't big it is very easy to maintain.
+
+### Inserting sectors per user
+In current solution we are just looping over the list of sectors we want to add for the user. This is fine for smaller scale applications. When there are thousands of users per minute updating their profiles then we could consider switching to batch insertion with mybatis. 
+
+Also triggers on the table can cause performance overhead. I did indeed add a trigger for created_dtime. Often than not this small performance cost over weighs the business need to know when the customer updated something.

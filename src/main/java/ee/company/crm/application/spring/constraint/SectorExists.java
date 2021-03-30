@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Documented
 public @interface SectorExists {
-    String message() default "Invalid Sector";
+    String message() default "Did you forget to select a sector from the list?";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

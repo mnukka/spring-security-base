@@ -51,7 +51,7 @@ public class ProfileController {
 
     @RequestMapping(value = "profile/view")
     public ModelAndView view() {
-        ProfileDto profileDto =  profileService.fetchOrEmpty();
+        ProfileDto profileDto =  profileService.fetchWithSectorsOrEmpty();
         return createViewModel(profileDto);
     }
 

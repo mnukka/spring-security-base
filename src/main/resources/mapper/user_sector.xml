@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="ee.company.crm.domain.persistence.sector.SectorDao">
-    <select id="findById" parameterType="java.lang.Long" resultType="ee.company.crm.domain.persistence.user.profile.UserSectorEntity">
-        SELECT * from user_sector where id = #{id} AND enabled = 'true';
+<mapper namespace="ee.company.crm.domain.persistence.user.profile.UserSectorDao">
+    <select id="findByUserId" resultType="ee.company.crm.domain.persistence.user.profile.UserSectorEntity">
+        SELECT *
+        FROM user_sector
+        WHERE user_id = #{userId}
+          AND enabled = true;
     </select>
 
+    <update id="disableByUserId" parameterType="java.lang.Long">
+        UPDATE user_sector
+        set enabled = false
+        WHERE user_id = #{userId};
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user_sector (user_id, sector_id)
+        VALUES (#{userId}, #{sectorId});
+    </insert>
 </mapper>
