@@ -48,7 +48,7 @@ public class CustomerServiceTest {
         verify(profileDao).insert(customerEntityCaptor.capture());
         assertEquals(user.getId(), customerEntityCaptor.getValue().getUserId());
         assertEquals(profileDto.getFullName(), customerEntityCaptor.getValue().getFullName());
-        assertEquals(profileDto.getTermsOfAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
+        assertEquals(profileDto.isTermsOfAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
     }
 
     private ProfileEntity createCustomerEntity(Integer customerId) {
