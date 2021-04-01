@@ -4,7 +4,6 @@ import ee.company.crm.application.spring.security.user.UserSession;
 import ee.company.crm.application.web.profile.ProfileDto;
 import ee.company.crm.domain.persistence.user.profile.ProfileDao;
 import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
-import ee.company.crm.domain.persistence.user.profile.UserSectorEntity;
 import ee.company.crm.domain.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

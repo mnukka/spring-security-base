@@ -9,17 +9,13 @@ import ee.company.crm.domain.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
-import java.util.Collections;
+import util.SpringUserSessionTestUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class CustomerServiceTest {
+public class UserServiceTest {
 
     @Captor
     ArgumentCaptor<ProfileEntity> customerEntityCaptor;
@@ -37,7 +33,7 @@ public class CustomerServiceTest {
     @Test
     void whenCreatingNewCustomer_VerifyEntityMapping() {
         // given
-        UserSession user = createUser();
+        UserSession user = SpringUserSessionTestUtil.createUser("Elon");
         ProfileDto profileDto = createCustomerDto();
 
         // when
@@ -51,36 +47,10 @@ public class CustomerServiceTest {
         assertEquals(profileDto.isTermsOfAgreement(), customerEntityCaptor.getValue().getTermsOfAgreement());
     }
 
-    private ProfileEntity createCustomerEntity(Integer customerId) {
-        ProfileEntity profileEntity = new ProfileEntity();
-        profileEntity.setId(Long.valueOf(customerId));
-        profileEntity.setFullName("fullName");
-        profileEntity.setTermsOfAgreement(true);
-        return profileEntity;
-    }
-
     private ProfileDto createCustomerDto() {
         ProfileDto profileDto = new ProfileDto();
         profileDto.setFullName("fullName");
         profileDto.setTermsOfAgreement(true);
         return profileDto;
-    }
-
-    private UserSession createUser() {
-        Collection<? extends GrantedAuthority> role = Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
-
-        UserSession user = new UserSession(
-                "a",
-                "b",
-                true,
-                true,
-                true,
-                false,
-                role,
-                1
-        );
-        return user;
     }
 }

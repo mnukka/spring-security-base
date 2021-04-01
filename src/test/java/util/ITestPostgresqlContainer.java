@@ -1,4 +1,4 @@
-package ee.company.crm.util;
+package util;
 
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.HostConfig;
