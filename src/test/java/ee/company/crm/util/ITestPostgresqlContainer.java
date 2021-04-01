@@ -1,6 +1,7 @@
 package ee.company.crm.util;
 
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Ports;
 import org.testcontainers.containers.*;
@@ -22,21 +23,14 @@ public class ITestPostgresqlContainer extends PostgreSQLContainer<ITestPostgresq
                     .withUsername("postgres")
                     .withPassword("postgres")
                     .withCreateContainerCmdModifier(cmd -> {
-                        cmd
-                                .withHostName("localhost")
-                                .withPortBindings(new PortBinding(Ports.Binding.bindPort(5432), new ExposedPort(5432)));
+                        cmd.withHostConfig(new HostConfig().withPortBindings(
+                                new PortBinding(
+                                        Ports.Binding.bindPort(5432),
+                                        new ExposedPort(5432)
+                                )))
+                                .withHostName("localhost");
                     });
         }
         return container;
-    }
-
-    @Override
-    public void start() {
-        super.start();
-    }
-
-    @Override
-    public void stop() {
-        // Thanks for not following interface segregation principle
     }
 }
