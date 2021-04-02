@@ -18,70 +18,57 @@ public class ProfileService {
 
     private final ProfileDao profileDao;
     private final UserService userService;
-    private final UserSectorService userSectorService;
-    private PropertyManager propertyManager;
+    private final PropertyManager propertyManager;
 
-    public ProfileService(ProfileDao profileDao, UserService userService, UserSectorService userSectorService, PropertyManager propertyManager) {
+    public ProfileService(ProfileDao profileDao, UserService userService, PropertyManager propertyManager) {
         this.profileDao = profileDao;
         this.userService = userService;
-        this.userSectorService = userSectorService;
         this.propertyManager = propertyManager;
     }
 
-    public Optional<ProfileDto> fetch() {
-        final long userId = userService.getCurrentUserId();
-        final ModelMapper modelMapper = new ModelMapper();
-        final var profileEntity = profileDao.findByUserid(userId);
-        return profileEntity.map(ent -> modelMapper.map(ent, ProfileDto.class));
-    }
-
-    public ProfileDto fetchOrEmpty() {
+    public ProfileDto fetchPartialOrEmpty() {
         return fetch().orElse(new ProfileDto());
     }
 
-    public ProfileDto fetchFullProfile() {
-        ProfileDto profile = fetchOrEmpty();
+    public ProfileDto fetchFullOrEmpty() {
+        ProfileDto profile = fetchPartialOrEmpty();
         List<ProfileProperty> propertyList = propertyManager.fetchAllProfileProperties();
-        propertyList.forEach(p -> p.connectPropertyWithProfile(profile));
+        propertyList.forEach(p -> p.enrichProfileWithProperty(profile));
         return profile;
     }
 
     @Transactional
-    public <T extends ProfileProperty> void update(ProfileDto profileDto, List<Class<T>> propertyInterfaces) {
+    public void updateWithProperties(ProfileDto profileDto, List<Class<? extends ProfileProperty>> propertyInterfaces) {
+        upsert(profileDto);
+
+        if (propertyInterfaces.isEmpty()) {
+            return;
+        }
+
         List<ProfileProperty> profileProperties = propertyManager.getProperties(propertyInterfaces);
         profileProperties.forEach(p -> p.updatePropertyFromProfile(profileDto));
     }
 
-    @Transactional
-    public void upsert(ProfileDto profileDto) {
-        final var profileDbDto = fetch();
-        if (profileDbDto.isPresent()) {
-            profileDto.setId(profileDbDto.get().getId());
-            userSectorService.updateSectorsForUser(profileDbDto.get().getUserId(), profileDto.getSectorIds());
-            update((profileDto));
-        } else {
-            create(profileDto);
-        }
-    }
-
-    @Transactional
-    public void update(ProfileDto profileDto) {
-        final ModelMapper modelMapper = new ModelMapper();
-        ProfileEntity profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
-        profileDao.update(profileEntity);
-    }
-
-    @Transactional
-    public void create(ProfileDto profileDto) {
+    private void upsert(ProfileDto profileDto) {
         final long userId = userService.getCurrentUserId();
-        final ProfileEntity profileEntity = mapCustomerData(profileDto);
-        profileEntity.setUserId(userId);
-        userSectorService.updateSectorsForUser(profileDto.getUserId(), profileDto.getSectorIds());
-        profileDao.insert(profileEntity);
+        var currentEntity = profileDao.findByUserid(userId);
+
+        final ModelMapper modelMapper = new ModelMapper();
+        var inputEntity = modelMapper.map(profileDto, ProfileEntity.class);
+        inputEntity.setUserId(userId);
+
+        currentEntity.ifPresentOrElse(
+                ent -> profileDao.update(inputEntity),
+                () -> {
+                    final long profileId = profileDao.insert(inputEntity);
+                    profileDto.setId(profileId);
+                });
     }
 
-    private ProfileEntity mapCustomerData(ProfileDto profileDto) {
+    private Optional<ProfileDto> fetch() {
+        final long userId = userService.getCurrentUserId();
         final ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(profileDto, ProfileEntity.class);
+        final var profileEntity = profileDao.findByUserid(userId);
+        return profileEntity.map(ent -> modelMapper.map(ent, ProfileDto.class));
     }
 }

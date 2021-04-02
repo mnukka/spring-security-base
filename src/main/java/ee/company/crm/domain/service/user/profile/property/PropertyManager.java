@@ -19,7 +19,11 @@ public class PropertyManager {
         return propertyList;
     }
 
-    public <T extends ProfileProperty> List<ProfileProperty> getProperties(List<Class<T>> propertyInterfaces) {
+    public List<ProfileProperty> getProperties(List<Class<? extends ProfileProperty>> propertyInterfaces) {
         return propertyInterfaces.stream().map(SpringContext::getBean).collect(Collectors.toList());
+    }
+
+    public ProfileProperty getProperty(Class<? extends ProfileProperty> propertyInterface) {
+        return SpringContext.getBean(propertyInterface);
     }
 }

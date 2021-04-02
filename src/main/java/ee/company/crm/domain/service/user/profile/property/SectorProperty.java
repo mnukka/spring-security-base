@@ -10,7 +10,7 @@ import java.util.List;
 public class SectorProperty implements ProfileProperty {
 
 
-    private UserSectorService userSectorService;
+    private final UserSectorService userSectorService;
 
     public SectorProperty(UserSectorService userSectorService) {
         this.userSectorService = userSectorService;
@@ -22,7 +22,7 @@ public class SectorProperty implements ProfileProperty {
     }
 
     @Override
-    public void connectPropertyWithProfile(ProfileDto profile) {
+    public void enrichProfileWithProperty(ProfileDto profile) {
         final List<Long> userSectors = userSectorService.findSectorsByUserId(profile.getUserId());
         profile.setSectorIds(userSectors);
     }

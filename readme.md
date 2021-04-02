@@ -46,7 +46,7 @@ Acceptance criteria #4 has scope creep
 
 ---
 ### User properties (checkboxes, sectors etc..)
-***In the current project I went with mixture of 1. and 3.***
+***In the current project I went with mixture of 1. and 3. Created PropertyManager with open/closed principle in mind.***
 
 _Possible ways how to store user properties  data in db:_
 1. Create new schema for individual properties

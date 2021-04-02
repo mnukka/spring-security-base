@@ -11,6 +11,8 @@ import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import util.SpringUserSessionTestUtil;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -38,7 +40,8 @@ public class UserServiceTest {
 
         // when
         when(userService.getCurrentUserFromSession()).thenReturn(user);
-        profileService.create(profileDto);
+        profileService.updateWithProperties(profileDto, List.of());
+        //profileService.create(profileDto);
 
         // then
         verify(profileDao).insert(customerEntityCaptor.capture());

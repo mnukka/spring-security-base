@@ -2,6 +2,7 @@ package ee.company.crm.application.web.profile;
 
 import ee.company.crm.domain.service.sector.SectorService;
 import ee.company.crm.domain.service.user.profile.ProfileService;
+import ee.company.crm.domain.service.user.profile.property.SectorProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +35,7 @@ public class ProfileController {
 
     @RequestMapping(value = {"", "/", "index"})
     public ModelAndView index() {
-        return new ModelAndView(INDEX_VIEW, MODEL, profileService.fetchOrEmpty());
+        return new ModelAndView(INDEX_VIEW, MODEL, profileService.fetchPartialOrEmpty());
     }
 
     @RequestMapping(value = "profile/update", method = RequestMethod.POST)
@@ -42,8 +43,7 @@ public class ProfileController {
         if (result.hasErrors()) {
             return createViewModel(profileDto).addObject(ERROR_ATTR, result.getAllErrors());
         }
-
-        profileService.upsert(profileDto);
+        profileService.updateWithProperties(profileDto, List.of(SectorProperty.class));
         redirect.addFlashAttribute(MSG_ATTR, PROFILE_UPDATED);
 
         return new ModelAndView("redirect:/index");
@@ -51,7 +51,7 @@ public class ProfileController {
 
     @RequestMapping(value = "profile/view")
     public ModelAndView view() {
-        ProfileDto profileDto =  profileService.fetchFullProfile();
+        ProfileDto profileDto =  profileService.fetchFullOrEmpty();
         return createViewModel(profileDto);
     }
 

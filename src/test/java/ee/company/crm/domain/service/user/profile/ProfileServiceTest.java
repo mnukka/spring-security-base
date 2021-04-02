@@ -1,13 +1,10 @@
 package ee.company.crm.domain.service.user.profile;
 
 import ee.company.crm.application.web.profile.ProfileDto;
-import ee.company.crm.domain.persistence.user.UserDao;
-import ee.company.crm.domain.persistence.user.UserEntity;
 import ee.company.crm.domain.persistence.user.profile.ProfileDao;
 import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
 import ee.company.crm.domain.service.user.UserService;
 import ee.company.crm.domain.service.user.profile.property.SectorProperty;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.modelmapper.ModelMapper;
 import util.ITestPostgresqlContainer;
@@ -22,7 +19,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import util.SpringUserSessionTestUtil;
 
 import java.util.List;
-import java.util.Optional;
 
 @Testcontainers
 @SpringBootTest
@@ -48,27 +44,15 @@ class ProfileServiceTest {
 
     @Test
     @Transactional
-    void update_agreementProperty_connectedToProfileInDb() {
+    void update_sectorProperty_connectedToProfileInDb() {
         ProfileDto profileDto = createUserInDbWithSpringSecurity("newGuy");
         final ModelMapper modelMapper = new ModelMapper();
         ProfileEntity profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
         profileDao.insert(profileEntity);
 
-        profileService.update(profileDto, List.of(SectorProperty.class));
-        ProfileDto profileFromDb = profileService.fetchFullProfile();
+        profileService.updateWithProperties(profileDto, List.of(SectorProperty.class));
+        ProfileDto profileFromDb = profileService.fetchFullOrEmpty();
         Assertions.assertEquals(profileDto.getSectorIds(), profileFromDb.getSectorIds());
-    }
-
-
-    @Test
-    @Transactional
-    void upsert_noProfile_createsNewProfile() {
-        ProfileDto profileDto = createUserInDbWithSpringSecurity("SandyShores");
-        profileService.upsert(profileDto);
-
-        Optional<ProfileDto> profileFromDb = profileService.fetch();
-        Assertions.assertTrue(profileFromDb.isPresent());
-
     }
 
     private ProfileDto createUserInDbWithSpringSecurity(String username) {
