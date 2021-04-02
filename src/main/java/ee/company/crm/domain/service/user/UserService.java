@@ -28,6 +28,10 @@ public class UserService {
         return (UserSession) securityContext.getAuthentication().getPrincipal();
     }
 
+    public long getCurrentUserId() {
+        return getCurrentUserFromSession().getId();
+    }
+
     @Transactional
     public long insertUser(String username, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());

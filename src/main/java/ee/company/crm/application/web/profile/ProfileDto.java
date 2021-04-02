@@ -13,6 +13,8 @@ public class ProfileDto {
 
     private Long id;
 
+    private Long userId;
+
     @NotBlank(message = "Name is required.")
     private String fullName;
 

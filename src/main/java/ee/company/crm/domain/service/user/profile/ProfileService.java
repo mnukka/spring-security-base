@@ -1,14 +1,16 @@
 package ee.company.crm.domain.service.user.profile;
 
-import ee.company.crm.application.spring.security.user.UserSession;
 import ee.company.crm.application.web.profile.ProfileDto;
 import ee.company.crm.domain.persistence.user.profile.ProfileDao;
 import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
 import ee.company.crm.domain.service.user.UserService;
+import ee.company.crm.domain.service.user.profile.property.ProfileProperty;
+import ee.company.crm.domain.service.user.profile.property.PropertyManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,17 +19,19 @@ public class ProfileService {
     private final ProfileDao profileDao;
     private final UserService userService;
     private final UserSectorService userSectorService;
+    private PropertyManager propertyManager;
 
-    public ProfileService(ProfileDao profileDao, UserService userService, UserSectorService userSectorService) {
+    public ProfileService(ProfileDao profileDao, UserService userService, UserSectorService userSectorService, PropertyManager propertyManager) {
         this.profileDao = profileDao;
         this.userService = userService;
         this.userSectorService = userSectorService;
+        this.propertyManager = propertyManager;
     }
 
     public Optional<ProfileDto> fetch() {
-        final UserSession currentUser = userService.getCurrentUserFromSession();
+        final long userId = userService.getCurrentUserId();
         final ModelMapper modelMapper = new ModelMapper();
-        final var profileEntity = profileDao.findByUserid(currentUser.getId());
+        final var profileEntity = profileDao.findByUserid(userId);
         return profileEntity.map(ent -> modelMapper.map(ent, ProfileDto.class));
     }
 
@@ -35,25 +39,25 @@ public class ProfileService {
         return fetch().orElse(new ProfileDto());
     }
 
-    public ProfileDto fetchWithSectorsOrEmpty() {
-        final long userId = userService.getCurrentUserFromSession().getId();
-        final var userSectors = userSectorService.findSectorsByUserId(userId);
-
-        if (userSectors.isEmpty()) {
-            return fetchOrEmpty();
-        }
-
+    public ProfileDto fetchFullProfile() {
         ProfileDto profile = fetchOrEmpty();
-        profile.setSectorIds(userSectors);
+        List<ProfileProperty> propertyList = propertyManager.fetchAllProfileProperties();
+        propertyList.forEach(p -> p.connectPropertyWithProfile(profile));
         return profile;
     }
 
     @Transactional
+    public <T extends ProfileProperty> void update(ProfileDto profileDto, List<Class<T>> propertyInterfaces) {
+        List<ProfileProperty> profileProperties = propertyManager.getProperties(propertyInterfaces);
+        profileProperties.forEach(p -> p.updatePropertyFromProfile(profileDto));
+    }
+
+    @Transactional
     public void upsert(ProfileDto profileDto) {
-        final var userProfileEntity = fetch();
-        if (userProfileEntity.isPresent()) {
-            profileDto.setId(userProfileEntity.get().getId());
-            userSectorService.updateSectorsForUser(userProfileEntity.get().getId(), profileDto.getSectorIds());
+        final var profileDbDto = fetch();
+        if (profileDbDto.isPresent()) {
+            profileDto.setId(profileDbDto.get().getId());
+            userSectorService.updateSectorsForUser(profileDbDto.get().getUserId(), profileDto.getSectorIds());
             update((profileDto));
         } else {
             create(profileDto);
@@ -69,14 +73,15 @@ public class ProfileService {
 
     @Transactional
     public void create(ProfileDto profileDto) {
-        UserSession currentUser = userService.getCurrentUserFromSession();
-        ProfileEntity profileEntity = mapCustomerData(profileDto);
-        profileEntity.setUserId(currentUser.getId());
+        final long userId = userService.getCurrentUserId();
+        final ProfileEntity profileEntity = mapCustomerData(profileDto);
+        profileEntity.setUserId(userId);
+        userSectorService.updateSectorsForUser(profileDto.getUserId(), profileDto.getSectorIds());
         profileDao.insert(profileEntity);
     }
 
     private ProfileEntity mapCustomerData(ProfileDto profileDto) {
-        ModelMapper modelMapper = new ModelMapper();
+        final ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(profileDto, ProfileEntity.class);
     }
 }
