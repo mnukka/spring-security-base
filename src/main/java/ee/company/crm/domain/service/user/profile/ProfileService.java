@@ -5,6 +5,7 @@ import ee.company.crm.domain.persistence.user.profile.ProfileDao;
 import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
 import ee.company.crm.domain.service.user.UserService;
 import ee.company.crm.domain.service.user.profile.property.ProfileProperty;
+import ee.company.crm.domain.service.user.profile.property.PropertyInstance;
 import ee.company.crm.domain.service.user.profile.property.PropertyManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,14 +39,14 @@ public class ProfileService {
     }
 
     @Transactional
-    public void updateWithProperties(ProfileDto profileDto, List<Class<? extends ProfileProperty>> propertyInterfaces) {
+    public void updateWithProperties(ProfileDto profileDto, List<PropertyInstance> propertyInstances) {
         upsert(profileDto);
 
-        if (propertyInterfaces.isEmpty()) {
+        if (propertyInstances.isEmpty()) {
             return;
         }
 
-        List<ProfileProperty> profileProperties = propertyManager.getProperties(propertyInterfaces);
+        List<ProfileProperty> profileProperties = propertyManager.getProperties(propertyInstances);
         profileProperties.forEach(p -> p.updatePropertyFromProfile(profileDto));
     }
 
@@ -54,13 +55,13 @@ public class ProfileService {
         var currentEntity = profileDao.findByUserid(userId);
 
         final ModelMapper modelMapper = new ModelMapper();
-        var inputEntity = modelMapper.map(profileDto, ProfileEntity.class);
-        inputEntity.setUserId(userId);
+        ProfileEntity newEntity = modelMapper.map(profileDto, ProfileEntity.class);
+        newEntity.setUserId(userId);
 
         currentEntity.ifPresentOrElse(
-                ent -> profileDao.update(inputEntity),
+                ent -> profileDao.update(newEntity),
                 () -> {
-                    final long profileId = profileDao.insert(inputEntity);
+                    final long profileId = profileDao.insert(newEntity);
                     profileDto.setId(profileId);
                 });
     }

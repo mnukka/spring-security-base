@@ -4,18 +4,17 @@ import ee.company.crm.application.web.profile.ProfileDto;
 import ee.company.crm.domain.persistence.user.profile.ProfileDao;
 import ee.company.crm.domain.persistence.user.profile.ProfileEntity;
 import ee.company.crm.domain.service.user.UserService;
-import ee.company.crm.domain.service.user.profile.property.SectorProperty;
+import ee.company.crm.domain.service.user.profile.property.sector.SectorInstance;
 import org.junit.jupiter.api.Assertions;
-import org.modelmapper.ModelMapper;
-import util.ITestPostgresqlContainer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import util.PostgresContainer;
 import util.SpringUserSessionTestUtil;
 
 import java.util.List;
@@ -23,14 +22,9 @@ import java.util.List;
 @Testcontainers
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class ProfileServiceTest {
+class ProfileServiceITest {
 
-    public static final PostgreSQLContainer<?> postgreSQLContainer;
-
-    static {
-        postgreSQLContainer = ITestPostgresqlContainer.getInstance();
-        postgreSQLContainer.start();
-    }
+    PostgresContainer postgresContainer = PostgresContainer.getInstance();
 
     @Autowired
     ProfileService profileService;
@@ -41,16 +35,19 @@ class ProfileServiceTest {
     @Autowired
     ProfileDao profileDao;
 
-
     @Test
     @Transactional
-    void update_sectorProperty_connectedToProfileInDb() {
+    void updateWithProperties_sectorProperty_connectedToProfileInDb() {
+        // given
         ProfileDto profileDto = createUserInDbWithSpringSecurity("newGuy");
         final ModelMapper modelMapper = new ModelMapper();
         ProfileEntity profileEntity = modelMapper.map(profileDto, ProfileEntity.class);
         profileDao.insert(profileEntity);
 
-        profileService.updateWithProperties(profileDto, List.of(SectorProperty.class));
+        // when
+        profileService.updateWithProperties(profileDto, List.of(new SectorInstance()));
+
+        // then
         ProfileDto profileFromDb = profileService.fetchFullOrEmpty();
         Assertions.assertEquals(profileDto.getSectorIds(), profileFromDb.getSectorIds());
     }

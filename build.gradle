@@ -37,11 +37,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// test
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.4.4'
+	testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.5'
 	testCompile group: 'org.testcontainers', name: 'postgresql', version: '1.15.2'
-	testCompile "org.testcontainers:junit-jupiter:1.15.2"
+	testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.2'
 	testCompile group: 'org.testcontainers', name: 'testcontainers', version: '1.15.2'
 }
 

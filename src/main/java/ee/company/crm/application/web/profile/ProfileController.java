@@ -2,7 +2,7 @@ package ee.company.crm.application.web.profile;
 
 import ee.company.crm.domain.service.sector.SectorService;
 import ee.company.crm.domain.service.user.profile.ProfileService;
-import ee.company.crm.domain.service.user.profile.property.SectorProperty;
+import ee.company.crm.domain.service.user.profile.property.sector.SectorInstance;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,9 +41,9 @@ public class ProfileController {
     @RequestMapping(value = "profile/update", method = RequestMethod.POST)
     public ModelAndView update(@Valid final @ModelAttribute(MODEL) ProfileDto profileDto, final BindingResult result, final RedirectAttributes redirect) {
         if (result.hasErrors()) {
-            return createViewModel(profileDto).addObject(ERROR_ATTR, result.getAllErrors());
+            return createViewWithDto(profileDto).addObject(ERROR_ATTR, result.getAllErrors());
         }
-        profileService.updateWithProperties(profileDto, List.of(SectorProperty.class));
+        profileService.updateWithProperties(profileDto, List.of(new SectorInstance()));
         redirect.addFlashAttribute(MSG_ATTR, PROFILE_UPDATED);
 
         return new ModelAndView("redirect:/index");
@@ -52,10 +52,10 @@ public class ProfileController {
     @RequestMapping(value = "profile/view")
     public ModelAndView view() {
         ProfileDto profileDto =  profileService.fetchFullOrEmpty();
-        return createViewModel(profileDto);
+        return createViewWithDto(profileDto);
     }
 
-    private ModelAndView createViewModel(ProfileDto profileDto) {
+    private ModelAndView createViewWithDto(ProfileDto profileDto) {
         List<SectorDto> sectorDtoList = sectorService.findAllSectors();
         return new ModelAndView(PROFILE_VIEW, MODEL, profileDto).addObject(SECTOR_ATTR, sectorDtoList);
     }

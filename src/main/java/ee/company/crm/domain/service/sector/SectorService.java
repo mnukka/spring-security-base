@@ -4,7 +4,6 @@ import ee.company.crm.application.web.profile.SectorDto;
 import ee.company.crm.domain.persistence.sector.SectorDao;
 import ee.company.crm.domain.persistence.sector.SectorEntity;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

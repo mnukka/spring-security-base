@@ -7,6 +7,6 @@ public class ProfileEntity {
 
     private Long id;
     private String fullName;
-    private Boolean termsOfAgreement;
+    private boolean termsOfAgreement;
     private Long userId;
 }
