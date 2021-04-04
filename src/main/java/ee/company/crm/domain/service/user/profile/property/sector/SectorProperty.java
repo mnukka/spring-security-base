@@ -1,7 +1,6 @@
 package ee.company.crm.domain.service.user.profile.property.sector;
 
 import ee.company.crm.application.web.profile.ProfileDto;
-import ee.company.crm.domain.service.user.profile.UserSectorService;
 import ee.company.crm.domain.service.user.profile.property.ProfileProperty;
 import org.springframework.stereotype.Component;
 

@@ -28,7 +28,8 @@ public class ProfileService {
     }
 
     public ProfileDto fetchPartialOrEmpty() {
-        return fetch().orElse(new ProfileDto());
+        final long userId = userService.getCurrentUserId();
+        return fetch(userId).orElse(new ProfileDto(userId));
     }
 
     public ProfileDto fetchFullOrEmpty() {
@@ -40,6 +41,8 @@ public class ProfileService {
 
     @Transactional
     public void updateWithProperties(ProfileDto profileDto, List<PropertyInstance> propertyInstances) {
+        final long userId = userService.getCurrentUserId();
+        profileDto.setUserId(userId);
         upsert(profileDto);
 
         if (propertyInstances.isEmpty()) {
@@ -51,23 +54,21 @@ public class ProfileService {
     }
 
     private void upsert(ProfileDto profileDto) {
-        final long userId = userService.getCurrentUserId();
-        var currentEntity = profileDao.findByUserid(userId);
-
+        var currentEntity = profileDao.findByUserid(profileDto.getUserId());
         final ModelMapper modelMapper = new ModelMapper();
         ProfileEntity newEntity = modelMapper.map(profileDto, ProfileEntity.class);
-        newEntity.setUserId(userId);
 
         currentEntity.ifPresentOrElse(
-                ent -> profileDao.update(newEntity),
+                ent -> {
+                    profileDao.update(newEntity);
+                },
                 () -> {
                     final long profileId = profileDao.insert(newEntity);
                     profileDto.setId(profileId);
                 });
     }
 
-    private Optional<ProfileDto> fetch() {
-        final long userId = userService.getCurrentUserId();
+    private Optional<ProfileDto> fetch(long userId) {
         final ModelMapper modelMapper = new ModelMapper();
         final var profileEntity = profileDao.findByUserid(userId);
         return profileEntity.map(ent -> modelMapper.map(ent, ProfileDto.class));

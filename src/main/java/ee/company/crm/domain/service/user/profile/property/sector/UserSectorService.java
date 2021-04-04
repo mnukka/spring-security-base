@@ -1,4 +1,4 @@
-package ee.company.crm.domain.service.user.profile;
+package ee.company.crm.domain.service.user.profile.property.sector;
 
 import ee.company.crm.domain.persistence.user.profile.UserSectorDao;
 import ee.company.crm.domain.persistence.user.profile.UserSectorEntity;
@@ -24,6 +24,10 @@ public class UserSectorService {
             return;
         }
 
+        if (!sectorsChanged(userId, sectorIds)) {
+            return;
+        }
+
         userSectorDao.disableByUserId(userId);
         sectorIds.forEach(p -> userSectorDao.insert(UserSectorEntity.builder().sectorId(p).userId(userId).build()));
     }
@@ -35,5 +39,17 @@ public class UserSectorService {
         }
 
         return userSectorDao.findByUserId(userId).stream().map(UserSectorEntity::getSectorId).collect(Collectors.toList());
+    }
+
+    private boolean sectorsChanged(long userId, List<Long> newSectorIds) {
+        var userSectors = userSectorDao.findByUserId(userId);
+        if (userSectors.isEmpty()) {
+            return true;
+        }
+
+        List<Long> existingSectorIds = userSectors.stream().map(UserSectorEntity::getSectorId).collect(Collectors.toList());
+        existingSectorIds.removeAll(newSectorIds);
+
+        return !existingSectorIds.isEmpty();
     }
 }

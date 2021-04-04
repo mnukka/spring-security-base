@@ -24,4 +24,11 @@ public class ProfileDto {
     @Size(min = 1, max = 5, message = "You can choose between 1 to 5 sectors")
     @SectorExists
     private List<Long> sectorIds;
+
+    public ProfileDto() {
+    }
+
+    public ProfileDto(Long userId) {
+        this.userId = userId;
+    }
 }

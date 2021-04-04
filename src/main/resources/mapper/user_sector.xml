@@ -11,8 +11,8 @@
 
     <update id="disableByUserId" parameterType="java.lang.Long">
         UPDATE user_sector
-        set enabled = false
-        WHERE user_id = #{userId};
+        SET enabled = false
+        WHERE user_id = #{userId} AND enabled = true;
     </update>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">

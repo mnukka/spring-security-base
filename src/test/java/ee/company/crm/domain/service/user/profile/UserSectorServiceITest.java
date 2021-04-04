@@ -2,6 +2,7 @@ package ee.company.crm.domain.service.user.profile;
 
 import ee.company.crm.domain.persistence.user.profile.UserSectorDao;
 import ee.company.crm.domain.persistence.user.profile.UserSectorEntity;
+import ee.company.crm.domain.service.user.profile.property.sector.UserSectorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
