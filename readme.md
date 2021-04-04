@@ -18,9 +18,12 @@ pwd: kukejaan
 ## Stack
 1) Java 11
 2) Spring boot
-3) Persistence: Mybatis, postgres, liquibase, testcontainers
+3) Persistence: Mybatis, PostgreSQL 13.2, liquibase, testcontainers
 4) Thymeleaf
 5) Docker
+
+### PostgreSQL
+* PostgreSQL 13.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 10.2.1_pre1) 10.2.1 20201203, 64-bit
 
 ## Acceptance criteria
 1. Correct all of the deficiencies in index.html
