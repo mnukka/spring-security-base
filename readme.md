@@ -40,9 +40,12 @@ pwd: kukejaan
 * 4.1 Ability to log in with users
    
 ### Acceptance criteria remarks:
-Acceptance criteria #1 should be clarified.
+Acceptance criteria #1 should be clarified. Unclear what "deficiencies" mean.
 
-Acceptance criteria #4 has scope creep
+Acceptance criteria #2 should be clarified. Unclear how many sectors user should be able to select at once.
+
+Acceptance criteria #4 has scope creep.
+
 
 ## Architecture remarks
 
