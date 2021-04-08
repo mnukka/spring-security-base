@@ -35,7 +35,8 @@
 
     <div class="row">
         <div class="col-md-12 order-md-1">
-            <form class="needs-validation" th:action="@{/profile/update}" th:object="${profileModel}" action="#" method="post">
+            <form class="needs-validation" th:action="@{/profile/update}" th:object="${profileModel}" action="#"
+                  method="post">
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                     <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
                 </div>
@@ -44,7 +45,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="fullName">Name</label>
-                        <input type="text" th:field="*{fullName}" class="form-control" id="fullName" placeholder="" value="">
+                        <input type="text" th:field="*{fullName}" class="form-control" id="fullName" placeholder=""
+                               value="">
                     </div>
                 </div>
 
@@ -57,7 +59,8 @@
                 </div>
                 <div class="mb-3">
                     <!-- Why null -->
-                    <input type="checkbox" name="termsOfAgreement" th:checked="*{termsOfAgreement}" id="termsOfAgreement">
+                    <input type="checkbox" name="termsOfAgreement" th:checked="*{termsOfAgreement}"
+                           id="termsOfAgreement">
                     <label for="termsOfAgreement">Agree to terms</label>
                 </div>
                 <hr class="mb-4">

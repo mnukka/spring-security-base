@@ -40,10 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/index")
 
                 .and()
-                .logout().permitAll().logoutUrl("/logout")
-
-                .and()
-                .csrf().disable();
+                .logout().permitAll().logoutUrl("/logout");
     }
 
     @Bean

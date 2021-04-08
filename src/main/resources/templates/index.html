@@ -23,7 +23,11 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <ul class="nav pull-right">
-                    <li><a th:href="@{/logout}" class="btn btn-done" > Logout </a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" class="btn btn-done" value="Logout"/>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
